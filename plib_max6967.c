@@ -3,12 +3,12 @@
 
 void MAX6967_StartTranmission(SPIConfiguration_t *spi)
 {
-    spi->cs_clear();
+    spi->cs.clear();
 }
 
 void MAX6967_EndTranmission(SPIConfiguration_t *spi)
 {
-    spi->cs_set();
+    spi->cs.set();
 }
 
 void MAX6967_Init(MAX6967Conf_t* conf)
