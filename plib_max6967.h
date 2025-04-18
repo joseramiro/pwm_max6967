@@ -1,7 +1,7 @@
 #ifndef PLIB_MAX6967_H
 #define PLIB_MAX6967_H
 
-#include "libs/util/plibs_utils.h"  // used for SPI struct
+#include "libs/common_c_libs/plib_comm_struct.h"
 
 #define MAX6967_REG_PORT0           0x00
 #define MAX6967_REG_PORT1           0x01

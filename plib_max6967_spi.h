@@ -2,7 +2,7 @@
 #define PLIB_MAX6967_SPI_H
 
 
-#include "libs/util/plibs_utils.h"  // used for SPI struct
+#include "libs/common_c_libs/plib_comm_struct.h"
 
 #define MAX6967_WRITE_MODE          0x00
 #define MAX6967_READ_MODE           0x80
