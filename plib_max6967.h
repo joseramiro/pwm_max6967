@@ -96,11 +96,11 @@ typedef struct
 {
     unsigned char id;                   /**< Identifiant du module */
     MAX6967ConfReg_t config;
-    SPIConfiguration_t spi;               /**< Configuration SPI associée au module */
+    SPI_t spi;               /**< Configuration SPI associée au module */
 }MAX6967Conf_t;
 
-void MAX6967_StartTranmission(SPIConfiguration_t *spi);
-void MAX6967_EndTranmission(SPIConfiguration_t *spi);
+void MAX6967_StartTranmission(SPI_t *spi);
+void MAX6967_EndTranmission(SPI_t *spi);
 
 void MAX6967_Init(MAX6967Conf_t* conf);
 void MAX6967_Configure(MAX6967Conf_t* conf);

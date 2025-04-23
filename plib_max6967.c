@@ -1,12 +1,12 @@
 #include "plib_max6967.h"
 #include "plib_max6967_spi.h"
 
-void MAX6967_StartTranmission(SPIConfiguration_t *spi)
+void MAX6967_StartTranmission(SPI_t *spi)
 {
     spi->cs.clear();
 }
 
-void MAX6967_EndTranmission(SPIConfiguration_t *spi)
+void MAX6967_EndTranmission(SPI_t *spi)
 {
     spi->cs.set();
 }

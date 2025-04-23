@@ -9,7 +9,7 @@
 
 /* ==== Fonctions SPI ==== */
 
-void MAX6967_Write(SPIConfiguration_t *spi, unsigned char reg, unsigned char val);
-unsigned char MAX6967_Read(SPIConfiguration_t *spi, unsigned char reg);
+void MAX6967_Write(SPI_t *spi, unsigned char reg, unsigned char val);
+unsigned char MAX6967_Read(SPI_t *spi, unsigned char reg);
 
 #endif  // PLIB_MAX6967_SPI_H
