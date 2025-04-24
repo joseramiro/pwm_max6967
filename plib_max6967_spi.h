@@ -21,7 +21,7 @@
  * @param reg Registre à ecrire
  * @param data Donnée à écrire
  */
-void MAX6967_Write(SPI_t *spi, unsigned char reg, unsigned char val);
+void MAX6967_Write(SPI_t *spi, unsigned char reg, unsigned char data);
 
 /**
  * @brief Lit des données depuis le MAX6967 via SPI.
