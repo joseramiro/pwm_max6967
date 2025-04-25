@@ -1,6 +1,3 @@
-#include "plib_max6967_spi.h"
-#include "peripheral/spi/spi_master/plib_spi1_master.h"
-#include "peripheral/spi/spi_master/plib_spi2_master.h"
 
 /**
  * @file plib_max6967_spi.c
@@ -10,6 +7,10 @@
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
+
+#include "plib_max6967_spi.h"
+#include "peripheral/spi/spi_master/plib_spi1_master.h"
+#include "peripheral/spi/spi_master/plib_spi2_master.h"
 
 void MAX6967_Write(SPI_t *spi, unsigned char reg, unsigned char val)
 {
