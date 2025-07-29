@@ -5,15 +5,12 @@
  * @file plib_max6967.h
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.0
+ * @version 1.0.1
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
 
 #include "libs/common_c_libs/plib_comm_struct.h"
-
-/** @brief Nombre de ports sur module MAX6967 */
-#define MAX6967_NUM_PORTS       10
 
 /** 
  * @defgroup MAX6967_Registers Registres du MAX6967
@@ -55,13 +52,42 @@
  * @brief Définitions des valeurs du registre port du MAX6967
  * @{
  */
+/** @brief Sortie en etat bas, non courant constant */
 #define MAX6967_PORT_LOGIC_LOW      0x00
+/** @brief Sortie en etat haut avec resistance pullup, sinon haute impedance */
 #define MAX6967_PORT_LOGIC_HIGH     0x01
+/** @brief Sortie statique courent constant */
 #define MAX6967_PORT_CC_STATIC      0x02
-#define MAX6967_PORT_CC_PWM_MAX     0x03    // 100 %
-#define MAX6967_PORT_CC_PWM_MIN     0xFE    // 0 %
+/** @brief Sortie en pwm valeur 0 % */
+#define MAX6967_PORT_CC_PWM_MIN     0x03
+/** @brief Sortie en pwm valeur 100 % */
+#define MAX6967_PORT_CC_PWM_MAX     0xFE
+/** @brief Sortie en etat haut avec resistance pullup, sinon haute impedance */
 #define MAX6967_PORT_CC_OFF         0xFF
 /** @} */ // Fin du groupe MAX6967_PortValues
+
+/** 
+ * @defgroup MAX6967_GlobalCurrentValues Valeurs du registre courant global du MAX6967
+ * @brief Définitions des valeurs du registre courant global du MAX6967
+ * @{
+ */
+/** @brief Courant global à 2.5 mA */
+#define MAX6967_GLOBAL_CURRENT_2_5_MA   0x00
+/** @brief Courant global à 5 mA */
+#define MAX6967_GLOBAL_CURRENT_5_MA     0x01
+/** @brief Courant global à 7.5 mA */
+#define MAX6967_GLOBAL_CURRENT_7_5_MA   0x02
+/** @brief Courant global à 10 mA */
+#define MAX6967_GLOBAL_CURRENT_10_MA    0x03
+/** @brief Courant global à 12.5 mA */
+#define MAX6967_GLOBAL_CURRENT_12_5_MA  0x04
+/** @brief Courant global à 15 mA */
+#define MAX6967_GLOBAL_CURRENT_15_MA    0x05
+/** @brief Courant global à 17.5 mA */
+#define MAX6967_GLOBAL_CURRENT_17_5_MA  0x06
+/** @brief Courant global à 20 mA */
+#define MAX6967_GLOBAL_CURRENT_20_MA    0x07
+/** @} */ // Fin du groupe MAX6967_GlobalCurrentValues
 
 /**
  * @union MAX6967ConfReg_t
@@ -170,10 +196,10 @@ typedef enum
  */
 typedef enum
 {
-    /** @brief Oscillateur interne.*/
-    MAX6967_CONF_OSC_INTERNAL,
-    /** @brief Horloge externe (via la broche OSC).*/
-    MAX6967_CONF_OSC_EXTERNAL
+    /** @brief Pin OSC/DOUT configuré comme DOUT (serial output)*/
+    MAX6967_CONF_OSC_DOUT,
+    /** @brief Pin OSC/DOUT configuré comme OSC (oscillator input).*/
+    MAX6967_CONF_OSC_INPUT
 }MAX6967ConfOSC_t;
 
 /**
@@ -277,12 +303,6 @@ void MAX6967_SetRunMode(MAX6967_t* obj, unsigned char state);
  * @param port Port à écrire
  */
 void MAX6967_DisablePort(MAX6967_t* obj, unsigned char port);
-
-/**
- * @brief Met tous les ports à 0
- * @param obj Module MAX6967
- */
-void MAX6967_DisableAllPorts(MAX6967_t* obj);
 
 /* ==== Fonctions Read ==== */
 

@@ -5,7 +5,7 @@
  * @file plib_max6967.c
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.0
+ * @version 1.0.1
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
@@ -23,9 +23,21 @@ void MAX6967_EndTranmission(SPI_t *spi)
 void MAX6967_Init(MAX6967_t* obj)
 {
     MAX6967_EndTranmission(&obj->spi);
-    // set configuration reg externally: run, stagged enbled
+    // Set global current to max
+    MAX6967_WriteGlobalCurrentReg(obj, MAX6967_GLOBAL_CURRENT_20_MA);
+    // Set configuration reg externally: run, stagged enbled
     MAX6967_WriteConfigurationReg(obj, obj->config.reg);
-    MAX6967_DisableAllPorts(obj);
+    // Set all ports to min pwm value
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT0, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT1, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT2, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT3, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT4, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT5, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT6, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT7, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT8, 0);
+    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT9, 0);
 }
 
 void MAX6967_WriteRegister(MAX6967_t* obj, unsigned char reg, unsigned char data)
@@ -69,10 +81,12 @@ void MAX6967_WriteGlobalCurrentReg(MAX6967_t* obj, unsigned char data)
 
 void MAX6967_WritePortPWMReg(MAX6967_t* obj, unsigned char port, unsigned char pwm)
 {
-    // Convert pwm to raw pwm
-    unsigned char rawPwm = MAX6967_PORT_CC_PWM_MIN - (pwm * (MAX6967_PORT_CC_PWM_MIN - MAX6967_PORT_CC_PWM_MAX)) / 100;
+    // Convert pwm to raw pwm (100% = 0x03 led fully on; 0 % = 0xfe led fully off)
+    //unsigned int rawPwm = ((pwm - 0x03) * 100) / (0xfe - 0x03);
+    // Convert pwm to raw pwm (0% = 0x03 led fully off; 100 % = 0xfe led fully on)
+    unsigned int rawPwm = MAX6967_PORT_CC_PWM_MIN + (pwm * (MAX6967_PORT_CC_PWM_MAX - MAX6967_PORT_CC_PWM_MIN) / 100);
     // Write register
-    MAX6967_WritePortReg(obj, port, rawPwm);
+    MAX6967_WritePortReg(obj, port, (unsigned char)rawPwm);
 }
 
 void MAX6967_SetRunMode(MAX6967_t* obj, unsigned char state)
@@ -84,16 +98,6 @@ void MAX6967_SetRunMode(MAX6967_t* obj, unsigned char state)
 void MAX6967_DisablePort(MAX6967_t* obj, unsigned char port)
 {
     MAX6967_WritePortReg(obj, (MAX6967_REG_PORT0 + port), MAX6967_PORT_CC_OFF);
-}
-
-void MAX6967_DisableAllPorts(MAX6967_t* obj)
-{
-    unsigned char i;
-
-    for(i = 0; i < MAX6967_NUM_PORTS; i++)
-    {
-        MAX6967_DisablePort(obj, i);
-    }
 }
 
 /* ==== Fonctions Read ==== */
