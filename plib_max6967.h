@@ -5,7 +5,7 @@
  * @file plib_max6967.h
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.1
+ * @version 1.0.2
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
@@ -188,7 +188,7 @@ typedef enum
     MAX6967_CONF_STAGGER_DISABLED,
     /** @brief Les phases PWM des sorties sont décalées les unes par rapport aux autres.*/
     MAX6967_CONF_STAGGED_ENABLED
-}MAX6967ConfPWMStagger_t;;
+}MAX6967ConfPWMStagger_t;
 
 /**
  * @enum MAX6967ConfOSC_t

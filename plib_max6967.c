@@ -5,7 +5,7 @@
  * @file plib_max6967.c
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.1
+ * @version 1.0.2
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
@@ -81,10 +81,14 @@ void MAX6967_WriteGlobalCurrentReg(MAX6967_t* obj, unsigned char data)
 
 void MAX6967_WritePortPWMReg(MAX6967_t* obj, unsigned char port, unsigned char pwm)
 {
-    // Convert pwm to raw pwm (100% = 0x03 led fully on; 0 % = 0xfe led fully off)
-    //unsigned int rawPwm = ((pwm - 0x03) * 100) / (0xfe - 0x03);
-    // Convert pwm to raw pwm (0% = 0x03 led fully off; 100 % = 0xfe led fully on)
-    unsigned int rawPwm = MAX6967_PORT_CC_PWM_MIN + (pwm * (MAX6967_PORT_CC_PWM_MAX - MAX6967_PORT_CC_PWM_MIN) / 100);
+    unsigned int rawPwm;
+    // Calculate PWM register according to PWM value
+    if(pwm == 0)
+        rawPwm = MAX6967_PORT_LOGIC_LOW;
+    else if(pwm == 100)
+        rawPwm = MAX6967_PORT_LOGIC_HIGH;
+    else 
+        rawPwm = MAX6967_PORT_CC_PWM_MAX - (pwm * (MAX6967_PORT_CC_PWM_MAX - MAX6967_PORT_CC_PWM_MIN) / 100);
     // Write register
     MAX6967_WritePortReg(obj, port, (unsigned char)rawPwm);
 }

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2025-08-05
+### Changed
+- Fixed bug to calculate 0 and 100 % in MAX6967_WritePortPWMReg function
+
 ## [1.0.1] - 2025-07-25
 ### Changed
 - Modified init function (added set global current, write conf reg and init port value)
