@@ -1,23 +1,32 @@
-#include "plib_max6967.h"
-#include "plib_max6967_spi.h"
-
 /**
  * @file plib_max6967.c
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.2
+ * @version 1.0.3
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
 
+#include <stddef.h>
+#include "plib_max6967.h"
+#include "plib_max6967_spi.h"
+
+/* ==== Fonctions SPI ==== */
+
 void MAX6967_StartTranmission(SPI_t *spi)
 {
-    spi->cs.clear();
+    if(spi->en.clear != NULL)
+        spi->en.clear();
+    if(spi->cs.clear != NULL) 
+        spi->cs.clear();
 }
 
 void MAX6967_EndTranmission(SPI_t *spi)
 {
-    spi->cs.set();
+    if(spi->cs.set != NULL)
+        spi->cs.set();
+    if(spi->en.set != NULL)
+        spi->en.set();
 }
 
 void MAX6967_Init(MAX6967_t* obj)
