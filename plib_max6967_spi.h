@@ -5,7 +5,7 @@
  * @file plib_max6967_spi.h
  * @brief Pilote SPI pour le MAX6967 (driver de PWM)
  * @author Ramiro Najera
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */

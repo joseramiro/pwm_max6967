@@ -2,7 +2,7 @@
  * @file plib_max6967.c
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
@@ -15,18 +15,18 @@
 
 void MAX6967_StartTranmission(SPI_t *spi)
 {
-    if(spi->en.clear != NULL)
-        spi->en.clear();
-    if(spi->cs.clear != NULL) 
-        spi->cs.clear();
+    if(spi->pinEN.Clear != NULL)
+        spi->pinEN.Clear();
+    if(spi->pinCS.Clear != NULL) 
+        spi->pinCS.Clear();
 }
 
 void MAX6967_EndTranmission(SPI_t *spi)
 {
-    if(spi->cs.set != NULL)
-        spi->cs.set();
-    if(spi->en.set != NULL)
-        spi->en.set();
+    if(spi->pinCS.Set != NULL)
+        spi->pinCS.Set();
+    if(spi->pinEN.Set != NULL)
+        spi->pinEN.Set();
 }
 
 void MAX6967_Init(MAX6967_t* obj)
