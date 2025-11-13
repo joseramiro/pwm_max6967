@@ -2,7 +2,7 @@
  * @file plib_max6967.c
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.4
+ * @version 1.0.5
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
@@ -10,6 +10,7 @@
 #include <stddef.h>
 #include "plib_max6967.h"
 #include "plib_max6967_spi.h"
+#include "libs/common_c_libs/plib_data_struct.h"
 
 /* ==== Fonctions SPI ==== */
 
@@ -29,7 +30,7 @@ void MAX6967_EndTranmission(SPI_t *spi)
         spi->pinEN.Set();
 }
 
-void MAX6967_Init(MAX6967_t* obj)
+unsigned char MAX6967_InitChip(MAX6967_t* obj)
 {
     MAX6967_EndTranmission(&obj->spi);
     // Set global current to max
@@ -37,6 +38,7 @@ void MAX6967_Init(MAX6967_t* obj)
     // Set configuration reg externally: run, stagged enbled
     MAX6967_WriteConfigurationReg(obj, obj->config.reg);
     // Set all ports to min pwm value
+    // todo: Add a checkwrite register(see mcp23s17 as example)
     MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT0, 0);
     MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT1, 0);
     MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT2, 0);
@@ -47,6 +49,24 @@ void MAX6967_Init(MAX6967_t* obj)
     MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT7, 0);
     MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT8, 0);
     MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT9, 0);
+    //Return error code
+    return 0;
+}
+
+unsigned int MAX6967_InitList(MAX6967_t *objList, unsigned char size)
+{
+    unsigned int errorCode = 0;
+    // Check max size: return error code
+    if(size > 16)
+        return 0xFF;
+    // Init each MCP23S17 module
+    for(unsigned char i = 0; i < size; i++)
+    {
+        if(MAX6967_InitChip(&objList[i]))
+            SET_FLAG_BIT(errorCode, i);
+    }
+    // Return error code
+    return errorCode;
 }
 
 void MAX6967_WriteRegister(MAX6967_t* obj, unsigned char reg, unsigned char data)

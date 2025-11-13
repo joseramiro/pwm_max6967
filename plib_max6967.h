@@ -5,7 +5,7 @@
  * @file plib_max6967.h
  * @brief Pilote du driver PWM MAX6967
  * @author Ramiro Najera
- * @version 1.0.4
+ * @version 1.0.5
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
@@ -232,8 +232,17 @@ void MAX6967_EndTranmission(SPI_t *spi);
  /**
  * @brief Initialise le module MAX6967 avec la configuration fournie.
  * @param obj Pointeur vers la structure de configuration du module.
+ * @return unsigned char 0 ok, 1 erreur
  */
-void MAX6967_Init(MAX6967_t* obj);
+unsigned char MAX6967_InitChip(MAX6967_t* obj);
+
+/**
+ * @brief Initialise une liste de modules MAX6967 (taille max 16)
+ * @param objList Liste de modules MAX6967
+ * @param size Taille de liste
+ * @return unsigned int Code d'erreur (bitmap de modules de la liste. voir MAX6967_InitChip)
+ */
+unsigned int MAX6967_InitList(MAX6967_t *objList, unsigned char size);
 
 /**
  * @brief Ecrit une donnée dans un registre dans le module MAX6967
