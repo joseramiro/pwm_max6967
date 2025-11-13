@@ -59,7 +59,7 @@ unsigned int MAX6967_InitList(MAX6967_t *objList, unsigned char size)
     // Check max size: return error code
     if(size > 16)
         return 0xFF;
-    // Init each MCP23S17 module
+    // Init each MAX6967 module
     for(unsigned char i = 0; i < size; i++)
     {
         if(MAX6967_InitChip(&objList[i]))
