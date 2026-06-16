@@ -10,6 +10,7 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <stdint.h>
 #include "libs/common_c_libs/plib_comm_struct.h"
 
 /** 
@@ -98,24 +99,24 @@ typedef union
     /** @brief Accès individuel aux bits du registre. */
     struct {
         /** @brief Mode (shutdown ou run) */
-        unsigned char mode : 1;
+        uint8_t mode : 1;
         /** @brief Chip Select run conversion */
-        unsigned char cs_run : 1;
+        uint8_t cs_run : 1;
         /** @brief Ramp up configuration */
-        unsigned char ramp_up : 1;
+        uint8_t ramp_up : 1;
         /** @brief Fade off configuration */
-        unsigned char fade_off : 1;
+        uint8_t fade_off : 1;
         /** @brief Hold off configuration */
-        unsigned char hold_off : 1;
+        uint8_t hold_off : 1;
         /** @brief Stagger configuration (phased or stagged) */
-        unsigned char stagger : 1;
+        uint8_t stagger : 1;
         /** @brief Bit 6 */
-        unsigned char b6 : 1;
+        uint8_t b6 : 1;
         /** @brief Oscillator configuration */
-        unsigned char osc : 1;
+        uint8_t osc : 1;
     } bits;
     /** @brief Accès complet au registre sous forme d'un octet. */
-    unsigned char reg; /**< Accès complet au registre sous forme d'un octet. */
+    uint8_t reg; /**< Accès complet au registre sous forme d'un octet. */
 } MAX6967ConfReg_t;
 
 /**
@@ -209,25 +210,12 @@ typedef enum
 typedef struct
 {
     /** @brief Identifiant du module */
-    unsigned char id;
+    uint8_t id;
     /** @brief Registre de configuration */
     MAX6967ConfReg_t config;
     /** @brief Configuration SPI associé au module */
     SPI_t spi;
 }MAX6967_t;
-
-
-/**
- * @brief Démarre une transmission SPI avec le module MAX6967
- * @param spi Pointeur vers la configuration SPI utilisée pour la communication.
- */
-void MAX6967_StartTranmission(SPI_t *spi);
-
-/**
- * @brief Termine une transmission SPI avec le module MAX6967.
- * @param spi Pointeur vers la configuration SPI utilisée pour la communication.
- */
-void MAX6967_EndTranmission(SPI_t *spi);
 
  /**
  * @brief Initialise le module MAX6967 avec la configuration fournie.
@@ -236,29 +224,11 @@ void MAX6967_EndTranmission(SPI_t *spi);
 void MAX6967_Init(MAX6967_t* obj);
 
 /**
- * @brief Ecrit une donnée dans un registre dans le module MAX6967
- * @param obj Module MAX6967
- * @param reg Regitre à écrire
- * @param data Donnée à écrire
- */
-void MAX6967_WriteRegister(MAX6967_t* obj, unsigned char reg, unsigned char data);
-
-/**
- * @brief Lire une donnée dans un registre dans le module MAX6967
- * @param obj Module MAX6967
- * @param reg Registre à lire
- * @return unsigned char Donnnée à lire
- */
-unsigned char MAX6967_ReadRegister(MAX6967_t* obj, unsigned char reg);
-
-/* ==== Fonctions Write ==== */
-
-/**
  * @brief Ecrire une donnée dans le registre de configuration du module MAX6967
  * @param obj Module MAX6967
  * @param data Donnée à écrire
  */
-void MAX6967_WriteConfigurationReg(MAX6967_t* obj, unsigned char data);
+void MAX6967_WriteConfigurationReg(MAX6967_t* obj, uint8_t data);
 
 /**
  * @brief Ecrire une donnée dans le registre de port du module MAX6967
@@ -266,21 +236,21 @@ void MAX6967_WriteConfigurationReg(MAX6967_t* obj, unsigned char data);
  * @param port Port
  * @param data Donnée à écrire
  */
-void MAX6967_WritePortReg(MAX6967_t* obj, unsigned char port, unsigned char data);
+void MAX6967_WritePortReg(MAX6967_t* obj, uint8_t port, uint8_t data);
 
 /**
  * @brief Ecrire une donnée dans les registres output current du module MAX6967
  * @param obj Module MAX6967
  * @param data Donnée à écrire
  */
-void MAX6967_WriteOutputCurrentReg(MAX6967_t* obj, unsigned char* data);
+void MAX6967_WriteOutputCurrentReg(MAX6967_t* obj, uint8_t* data);
 
 /**
  * @brief Ecrire une donnée dans le registre global current du module MAX6967
  * @param obj Module MAX6967
  * @param data Donnée à écrire
  */
-void MAX6967_WriteGlobalCurrentReg(MAX6967_t* obj, unsigned char data);
+void MAX6967_WriteGlobalCurrentReg(MAX6967_t* obj, uint8_t data);
 
 /**
  * @brief Ecrire une PWM dans le registre port du module MAX6967
@@ -288,37 +258,37 @@ void MAX6967_WriteGlobalCurrentReg(MAX6967_t* obj, unsigned char data);
  * @param port Port
  * @param pwm Valeur de PWM brute à écrire (entre 0 et 100 %)
  */
-void MAX6967_WritePortPWMReg(MAX6967_t* obj, unsigned char port, unsigned char pwm);
+void MAX6967_WritePortPWMReg(MAX6967_t* obj, uint8_t port, uint8_t pwm);
 
 /**
  * @brief Met à jour le mode de fonctionnement du module MAX6967 (shutdown ou run)
  * @param obj Module MAX6967
  * @param state Mode de fonctionnement
  */
-void MAX6967_SetRunMode(MAX6967_t* obj, unsigned char state);
+void MAX6967_SetRunMode(MAX6967_t* obj, uint8_t state);
 
 /**
  * @brief Met le port à 0
  * @param obj Module MAX6967
  * @param port Port à écrire
  */
-void MAX6967_DisablePort(MAX6967_t* obj, unsigned char port);
+void MAX6967_DisablePort(MAX6967_t* obj, uint8_t port);
 
 /* ==== Fonctions Read ==== */
 
 /**
  * @brief Lit le registre configuration du module MAX6967
  * @param obj Module MAX6967
- * @return unsigned char Valeur du registre lue
+ * @return uint8_t Valeur du registre lue
  */
-unsigned char MAX6967_ReadConfigurationReg(MAX6967_t* obj);
+uint8_t MAX6967_ReadConfigurationReg(MAX6967_t* obj);
 
 /**
  * @brief Lit le registre port du module MAX6967
  * @param obj Module MAX6967
  * @param port Port
- * @return unsigned char Valeur du registre lue 
+ * @return uint8_t Valeur du registre lue 
  */
-unsigned char MAX6967_ReadPortReg(MAX6967_t* obj, unsigned char port);
+uint8_t MAX6967_ReadPortReg(MAX6967_t* obj, uint8_t port);
 
 #endif  // PLIB_MAX6967_H
