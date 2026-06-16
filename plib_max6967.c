@@ -19,7 +19,7 @@ static uint8_t MAX6967_Read(SPI_t *spi, uint8_t reg);
 static void MAX6967_StartTranmission(SPI_t *spi);
 static void MAX6967_EndTranmission(SPI_t *spi);
 static void MAX6967_WriteRegister(MAX6967_t* obj, uint8_t reg, uint8_t data);
-uint8_t MAX6967_ReadRegister(MAX6967_t* obj, uint8_t reg);
+static uint8_t MAX6967_ReadRegister(MAX6967_t* obj, uint8_t reg);
 
 // Public API
 
@@ -31,19 +31,9 @@ void MAX6967_Init(MAX6967_t* obj)
     // Set configuration reg externally: run, stagged enbled
     MAX6967_WriteConfigurationReg(obj, obj->config.reg);
     // Set all ports to min pwm value
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT0, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT1, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT2, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT3, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT4, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT5, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT6, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT7, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT8, 0);
-    MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT9, 0);
+    for(uint8_t i = 0; i < MAX6967_REG_PORT9 + 1; i++)
+        MAX6967_WritePortPWMReg(obj, MAX6967_REG_PORT0 + i, 0);
 }
-
-
 
 /* ==== Fonctions Write ==== */
 
