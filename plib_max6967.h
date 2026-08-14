@@ -11,7 +11,7 @@
  */
 
 #include <stdint.h>
-#include "libs/common_c_libs/plib_comm_struct.h"
+#include "plib_comm_struct.h"
 
 /** 
  * @defgroup MAX6967_Registers Registres du MAX6967
